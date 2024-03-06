@@ -72,7 +72,6 @@ function updateTimer() {
   const timeDifference = userSelectedDate - currentTime;
 
   if (timeDifference <= 0) {
-    // Timer reached the selected date
     clearInterval(timerInterval);
     return;
   }
@@ -93,5 +92,16 @@ function updateTimer() {
 let timerInterval;
 
 startBtn.addEventListener('click', () => {
-  timerInterval = setInterval(updateTimer, 1000);
+  input.setAttribute('disabled', true);
+  startBtn.setAttribute('disabled', true);
+
+  timerInterval = setInterval(() => {
+    updateTimer();
+
+    if (userSelectedDate - new Date() <= 0) {
+      clearInterval(timerInterval);
+      input.removeAttribute('disabled');
+      startBtn.removeAttribute('disabled');
+    }
+  }, 1000);
 });
